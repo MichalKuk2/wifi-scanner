@@ -9,6 +9,7 @@ from tkinter import ttk
 import time
 import math
 
+# automatyczne wykrywanie esp32 na porcie usb
 def find_esp32_port():
     ports = serial.tools.list_ports.comports()
     print("🔍 Dostępne porty:")
@@ -35,6 +36,7 @@ time.sleep(2)
 
 networks = {}
 
+# obliczanie dystansu
 def estimate_distance(rssi, tx_power=-40, n=2.0):
     try:
         rssi = int(rssi)
@@ -43,6 +45,7 @@ def estimate_distance(rssi, tx_power=-40, n=2.0):
     except:
         return "?"
 
+# wyswietlanie symbolu mocy sygnalu
 def signal_icon(rssi):
     try:
         rssi = int(rssi)
@@ -59,6 +62,7 @@ def signal_icon(rssi):
     except:
         return "?"
 
+# odczyt danych z portu
 def read_serial():
     global networks
     while True:
@@ -79,6 +83,7 @@ def read_serial():
             print("Błąd serial:", e)
         time.sleep(0.1)
 
+# wyswietlanie i aktualizacja danych w tabeli
 def refresh_table():
     global networks
     for ssid in list(networks.keys()):
@@ -100,6 +105,7 @@ def refresh_table():
 
     root.after(SCAN_INTERVAL * 1000, refresh_table)
 
+# sortowanie kolumn
 def treeview_sort_column(tv, col, reverse):
     data_list = [(tv.set(k, col), k) for k in tv.get_children('')]
     try:
@@ -110,6 +116,7 @@ def treeview_sort_column(tv, col, reverse):
         tv.move(k, '', index)
     tv.heading(col, command=lambda: treeview_sort_column(tv, col, not reverse))
 
+# GUI
 root = tk.Tk()
 root.title("ESP32 WiFi Scanner")
 

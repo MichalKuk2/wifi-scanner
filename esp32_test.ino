@@ -9,6 +9,7 @@
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
+//inicjalizacja OLED i diody
 void setup() {
   Serial.begin(115200);
   pinMode(LED_PIN, OUTPUT);
@@ -29,6 +30,7 @@ void setup() {
   WiFi.disconnect();
   delay(100);
 }
+//sprawdzanie typu zabezpieczen
 
 String encryptionType(wifi_auth_mode_t encryptionType) {
   switch (encryptionType) {
@@ -44,6 +46,7 @@ String encryptionType(wifi_auth_mode_t encryptionType) {
   }
 }
 
+//glowna funkcja
 void loop() {
   int n = WiFi.scanNetworks();
   display.clearDisplay();
@@ -51,6 +54,7 @@ void loop() {
   digitalWrite(LED_PIN, HIGH);
   unsigned long start = millis();
 
+  //wyswietlanie danych
   if(n == 0) {
     display.setCursor(0,0);
     display.println("No networks found");
@@ -74,6 +78,7 @@ void loop() {
 
   display.display();
 
+  //miganie diody
   while (millis() - start < 3000) {
     delay(50);
   }
